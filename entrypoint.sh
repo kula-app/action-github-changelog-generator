@@ -164,5 +164,5 @@ if [[ -e "$FILE" ]]; then
   CONTENT="${CONTENT//'%'/'%25'}"
   CONTENT="${CONTENT//$'\n'/'%0A'}"
   CONTENT="${CONTENT//$'\r'/'%0D'}"
-  echo ::set-output name=changelog::"$CONTENT"
+  echo "changelog=$CONTENT" >> $GITHUB_OUTPUT
 fi
