@@ -1,8 +1,8 @@
 #!/bin/bash
-istrue () {
+istrue() {
   case $1 in
-    "true"|"yes"|"y") return 0;;
-    *) return 1;;
+  "true" | "yes" | "y") return 0 ;;
+  *) return 1 ;;
   esac
 }
 
@@ -16,10 +16,9 @@ fi
 # Set repository from GitHub, if not set.
 if [ -z "$INPUT_REPO" ]; then INPUT_REPO="$GITHUB_REPOSITORY"; fi
 # Set user input from repository, if not set.
-if [ -z "$INPUT_USER" ]; then INPUT_USER=$(echo "$INPUT_REPO" | cut -d / -f 1 ); fi
+if [ -z "$INPUT_USER" ]; then INPUT_USER=$(echo "$INPUT_REPO" | cut -d / -f 1); fi
 # Set project input from repository, if not set.
-if [ -z "$INPUT_PROJECT" ]; then INPUT_PROJECT=$(echo "$INPUT_REPO" | cut -d / -f 2- ); fi
-
+if [ -z "$INPUT_PROJECT" ]; then INPUT_PROJECT=$(echo "$INPUT_REPO" | cut -d / -f 2-); fi
 
 # Only show last tag.
 if istrue "$INPUT_ONLYLASTTAG"; then
@@ -160,9 +159,9 @@ fi
 # Save change log to outputs.
 if [[ -e "$FILE" ]]; then
   CONTENT=$(cat "$FILE")
-  # Escape as per https://github.community/t/set-output-truncates-multiline-strings/16852/3.
-  CONTENT="${CONTENT//'%'/'%25'}"
-  CONTENT="${CONTENT//$'\n'/'%0A'}"
-  CONTENT="${CONTENT//$'\r'/'%0D'}"
-  echo "changelog=$CONTENT" >> $GITHUB_OUTPUT
+
+  delimiter=$(openssl rand -hex 8)
+  echo "output-name<<${delimiter}" >>"${GITHUB_OUTPUT}"
+  echo "changelog=$CONTENT" >>"${GITHUB_OUTPUT}"
+  echo "${delimiter}" >>"${GITHUB_OUTPUT}"
 fi
