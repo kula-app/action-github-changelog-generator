@@ -160,7 +160,7 @@ fi
 if [[ -e "$FILE" ]]; then
   CONTENT=$(cat "$FILE")
 
-  delimiter=$(openssl rand -hex 8)
+  delimiter=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c10)
   echo "output-name<<${delimiter}" >>"${GITHUB_OUTPUT}"
   echo "changelog=$CONTENT" >>"${GITHUB_OUTPUT}"
   echo "${delimiter}" >>"${GITHUB_OUTPUT}"
