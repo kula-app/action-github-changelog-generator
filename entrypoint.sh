@@ -158,10 +158,8 @@ fi
 
 # Save change log to outputs.
 if [[ -e "$FILE" ]]; then
-  CONTENT=$(cat "$FILE")
-
   delimiter=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c10)
-  echo "output-name<<${delimiter}" >>"${GITHUB_OUTPUT}"
-  echo "changelog=$CONTENT" >>"${GITHUB_OUTPUT}"
+  echo "changelog<<${delimiter}" >>"${GITHUB_OUTPUT}"
+  cat "$FILE" >>"${GITHUB_OUTPUT}"
   echo "${delimiter}" >>"${GITHUB_OUTPUT}"
 fi
